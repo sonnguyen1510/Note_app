@@ -12,11 +12,14 @@ import Colors from "../../Colors";
 import ToDoList from "./TaskItem";
 import React from "react";
 import SearchBar from "../Function/SearchBar";
+import DAO from "../../Database/DAO";
+import { db } from "../../Database/Connection";
 
 export default class App extends React.Component {
   state = {
     addToDoVisble: false,
-    lists: this.props.data
+    lists: this.props.data,
+    searchList: this.props.data
   };
 
   componentDidUpdate(prevProps) {
@@ -26,7 +29,8 @@ export default class App extends React.Component {
   }
 
   deleteTS(taskID) {
-    deleteTask(taskID)
+    DAO(db)
+      .deleteTask(taskID)
       .then((rowsAffected) => {
         const NewData = [];
         this.props.data.forEach((element) => {
@@ -81,7 +85,8 @@ export default class App extends React.Component {
             height: "auto",
             width: "100%",
             flexDirection: "column",
-            justifyContent: "flex-start"
+            justifyContent: "flex-start",
+            marginTop: 5
           }}
         >
           <FlatList
@@ -89,9 +94,8 @@ export default class App extends React.Component {
             data={this.state.lists}
             horizontal={false}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
-              return this.renderList(item);
-            }}
+            renderItem={({ item }) => this.renderList(item)}
+            keyExtractor={(item, index) => item.id.toString()}
             keyboardShouldPersistTaps="always"
           />
           {}
@@ -103,33 +107,6 @@ export default class App extends React.Component {
 }
 
 {
-  /**
-   * 
-  function main() {
-  return (
-    <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            marginBottom: "7%",
-            marginTop: "15%"
-          }}
-        >
-          <View style={styles.divider} />
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>
-              To do{" "}
-              <Text style={{ fontWeight: "300", color: Colors.blue }}>
-                List
-              </Text>
-            </Text>
-          </View>
-          <View style={styles.divider} />
-        </View>
-  );
-}
-   */
 }
 
 const styles = StyleSheet.create({

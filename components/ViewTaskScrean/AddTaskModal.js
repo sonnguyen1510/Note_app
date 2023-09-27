@@ -10,7 +10,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../Colors";
 
-export default class AddListModal extends React.Component {
+export default class AddTask extends React.Component {
   backgroundColor = [
     "#24A6D9",
     "#595BD9",

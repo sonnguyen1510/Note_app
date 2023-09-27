@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase("MyTodo.db");
+const db = SQLite.openDatabase("MyTodos.db");
 
 const createTasksTable = () => {
   return new Promise((resolve, reject) => {

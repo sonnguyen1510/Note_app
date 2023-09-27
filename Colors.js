@@ -6,5 +6,6 @@ export default {
   backgroundcolor: "#fff",
   gray: "#A4A4A4",
   lightGray: "#CACACA",
-  blackblue: "#1C204B"
+  blackblue: "#1C204B",
+  black2: "#575757"
 };

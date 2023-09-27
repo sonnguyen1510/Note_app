@@ -21,6 +21,7 @@ const SearchBar = ({ clicked, searchPhrase, setSearchPhrase, setClicked }) => {
         <TextInput
           style={styles.input}
           placeholder="Search"
+          placeholderTextColor="grey"
           value={searchPhrase}
           onChangeText={setSearchPhrase}
           onFocus={() => {

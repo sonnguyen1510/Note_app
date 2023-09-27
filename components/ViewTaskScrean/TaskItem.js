@@ -6,7 +6,8 @@ import {
   Alert,
   TouchableOpacity,
   Modal,
-  AntDesign
+  AntDesign,
+  Dimensions
 } from "react-native";
 import Colors from "../../Colors";
 import ToDoModal from "./ToDoModal";
@@ -15,12 +16,14 @@ import * as Font from "expo-font";
 import DAO from "../../Database/DAO";
 import { db } from "../../Database/Connection";
 
-export default class toDoList extends React.Component {
+export default class TaskItem extends React.Component {
   state = {
     showListVisible: false,
-    taksInformations: this.props.RenderItems,
+    taskInformations: this.props.RenderItems,
     listTodos: [],
-    showTask: null
+    showTask: null,
+    whenTaskShow: {},
+    modalHeight: Dimensions.get("window").height * 0.8
   };
   showAlert(deleteTask) {
     Alert.alert(
@@ -33,7 +36,7 @@ export default class toDoList extends React.Component {
         },
         {
           text: "OK",
-          onPress: () => this.props.deleteTasks(this.state.taksInformations.id)
+          onPress: () => this.props.deleteTasks(this.state.taskInformations.id)
         }
       ],
       { cancelable: false }
@@ -41,15 +44,16 @@ export default class toDoList extends React.Component {
   }
   ShowListModal() {
     DAO(db)
-      .getTodoByTasksID(this.state.taksInformations.id)
+      .getTodoByTasksID(this.state.taskInformations.id)
       .then((data) => {
+        this.state.listTodos = [];
         data.forEach((element) => {
-          element.remind = this.convertTimeToDate(element.remind); // Convert 24-hour string time to Date object
+          //element.remind = this.convertTimeToDate(element.remind); // Convert 24-hour string time to Date object
           this.state.listTodos.push(element);
           //console.log(element, "get Task");
         });
         this.state.showTask = this.taskitem();
-        //console.log(this.state.listTodos);
+        this.state.whenTaskShow = { backgroundColor: Colors.black };
         this.setState({ showListVisible: !this.state.showListVisible });
       })
       .catch((error) => {
@@ -72,16 +76,19 @@ export default class toDoList extends React.Component {
   CloseListModal() {
     this.state.listTodos = [];
     this.state.showTask = null;
+    this.state.whenTaskShow = {};
     this.setState({ showListVisible: !this.state.showListVisible });
   }
 
   taskitem() {
     return (
       <ToDoModal
-        name={this.state.taksInformations.name}
+        name={this.state.taskInformations.name}
         TaskItem={this.state.listTodos}
-        TaskID={this.state.taksInformations.id}
+        TaskID={this.state.taskInformations.id}
         closeModal={() => this.CloseListModal()}
+        color={this.state.taskInformations.color}
+        modalHeight={this.state.modalHeight}
       />
     );
   }
@@ -93,10 +100,10 @@ export default class toDoList extends React.Component {
   }
 
   render() {
-    const list = this.state.taksInformations;
+    const list = this.state.taskInformations;
     //console.log(list, "inviews");
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.state.whenTaskShow]}>
         <Modal
           animationType="slide"
           visible={this.state.showListVisible}
@@ -108,7 +115,7 @@ export default class toDoList extends React.Component {
           <View style={[styles.listContainer, { backgroundColor: list.color }]}>
             <View>
               <TouchableOpacity
-                onPress={() => this.showAlert(this.state.taksInformations)}
+                onPress={() => this.showAlert(this.state.taskInformations)}
               >
                 <Text
                   style={{
@@ -142,7 +149,8 @@ export default class toDoList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    width: "100%"
+    width: "100%",
+    zIndex: 1
   },
   listContainer: {
     width: "90%",

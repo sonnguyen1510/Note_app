@@ -113,6 +113,32 @@ export default function (db) {
         });
       });
     },
+    getTodoImportant: () => {
+      return new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            `SELECT * FROM ToDos WHERE important = ?`,
+            [1],
+            (_, results) => {
+              if (results.rows.length != 0) {
+                const data = [];
+                for (let i = 0; i < results.rows.length; i++) {
+                  const row = results.rows.item(i);
+                  data.push(row);
+                }
+                resolve(data);
+              } else {
+                console.log(results, "Get important todo failed");
+                resolve([]);
+              }
+            },
+            (error) => {
+              reject(error);
+            }
+          );
+        });
+      });
+    },
     addNewToDo: (title, remind, color, completed, taskID, important) => {
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
@@ -151,10 +177,11 @@ export default function (db) {
         db.transaction((tx) => {
           tx.executeSql(
             "UPDATE ToDos SET completed=? WHERE id=?",
-            [completed ? 1 : 0, todoId],
+            [completed, todoId],
             (_, { rowsAffected }) => {
               if (rowsAffected > 0) {
                 resolve();
+                console.log("Update complete successfully");
               } else {
                 reject(new Error("Failed to update task."));
               }
@@ -169,7 +196,7 @@ export default function (db) {
         db.transaction((tx) => {
           tx.executeSql(
             "UPDATE ToDos SET important=? WHERE id=?",
-            [important ? 1 : 0, todoId],
+            [important, todoId],
             (_, { rowsAffected }) => {
               if (rowsAffected > 0) {
                 resolve();

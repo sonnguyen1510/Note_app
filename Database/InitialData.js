@@ -45,87 +45,87 @@ export default async function insertData(db) {
     {
       name: "plan the trip",
       color: "#FF5E7D",
-      createDate: "Wed Apr 26 2023",
+      createDate: "Tue Sep 26 2023",
       total: 2,
       todos: [
         {
           title: "Book flight",
           remind: "17:30",
           color: "#595BD9",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         },
         {
           title: "Passport check",
           remind: "20:30",
           color: "#F1C75B",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         }
       ]
     },
     {
       name: "Errands",
       color: "#F1C75B",
-      createDate: "Tue Apr 25 2023",
+      createDate: "Tue Sep 26 2023",
       total: 4,
       todos: [
         {
           title: "Buy Milk",
           remind: "9:30",
           color: "#FF5E7D",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         },
         {
           title: "Clean house",
           remind: "10:30",
           color: "#4BCF82",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         },
         {
           title: "Jogging",
           remind: "19:30",
           color: "#FF8B64",
-          completed: true,
-          important: false
+          completed: 0,
+          important: 0
         },
         {
           title: "Playing",
           remind: "21:30",
           color: "#24A6D9",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         }
       ]
     },
     {
       name: "Job for today",
       color: "#88D274",
-      createDate: "Wed Apr 26 2023",
+      createDate: "Wed Sep 27 2023",
       total: 3,
       todos: [
         {
           title: "Coffee shop",
           remind: "7:30",
           color: "#4BCF82",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         },
         {
           title: "Check list",
           remind: "12:30",
           color: "#595BD9",
-          completed: true,
-          important: false
+          completed: 0,
+          important: 0
         },
         {
           title: "Party night",
           remind: "15:30",
           color: "#FF8B64",
-          completed: true,
-          important: false
+          completed: 1,
+          important: 0
         }
       ]
     }
