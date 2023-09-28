@@ -9,9 +9,12 @@ import {
   StyleSheet,
   FlatList,
   TextInput,
-  Modal
+  KeyboardAvoidingView,
+  Modal,
+  Dimensions
 } from "react-native";
 import Colors from "../../Colors";
+import AddTodo from "./AddTodo";
 
 import ToDoItem from "./ToDoItem";
 import AddTodoItem from "./AddTodoItem";
@@ -53,24 +56,23 @@ export default ToDoModal = function (props) {
     //const options = { hour: "2-digit", minute: "2-digit", hour12: false };
 
     DAO(db)
-      .addNewToDo(title, remind, color, false, props.TaskID, false)
-      .then((insertedID) => {
-        setItems((currentItem) => [
-          ...currentItem,
-          {
-            id: insertedID,
-            title: title,
-            taskID: props.TaskID,
-            Color: color || "lightblue",
-            remind: remind,
-            complete: 0,
-            important: 0
-          }
-        ]);
-      })
+      .addNewToDo(title, remind, color, 0, props.TaskID, 0)
+      .then()
       .catch((error) => {
         console.error(error);
       });
+
+    const updateList = [...AllTask];
+    updateList.push({
+      color: color,
+      completed: 0,
+      id: 549,
+      important: 0,
+      remind: remind,
+      taskId: props.TaskID,
+      title: title
+    });
+    setAlltask(updateList);
   };
 
   const setImportant = (id) => {
@@ -152,14 +154,7 @@ export default ToDoModal = function (props) {
       flexDirection: "row",
       alignItems: "center"
     },
-    input: {
-      flex: 1,
-      width: "60%",
-      height: 48,
 
-      marginRight: 8,
-      paddingHorizontal: 8
-    },
     addTodo: {
       width: 130,
       borderRadius: 4,
@@ -167,17 +162,7 @@ export default ToDoModal = function (props) {
       alignItems: "center",
       justifyContent: "center"
     },
-    addTodoItem: {
-      backgroundColor: Colors.gray,
-      width: "96%",
-      height: 60,
-      marginStart: 12,
-      borderRadius: 10,
-      elevation: 5,
-      flexDirection: "row",
-      padding: 10,
-      alignItems: "center"
-    },
+
     closeModal: {
       borderRadius: 4,
       alignItems: "center",
@@ -195,9 +180,9 @@ export default ToDoModal = function (props) {
     },
     timetableContainer: {
       flex: 1,
-      height: "70%",
+      height: Dimensions.get("window").height * 0.7,
       paddingHorizontal: 10,
-      backgroundColor: "red",
+
       width: "100%",
       marginTop: 10,
       padding: 10
@@ -224,140 +209,133 @@ export default ToDoModal = function (props) {
     }
   });
 
+  {
+    /**  Custom add to do */
+  }
+
   return (
     <>
       <StatusBar style="dark"></StatusBar>
 
       <SafeAreaView style={styles.container}>
         <ScrollView
-          style={{ flex: 1 }}
+          style={{
+            height: "100%"
+          }}
           automaticallyAdjustKeyboardInsets={true}
           nestedScrollEnabled={false}
           scrollEnabled={false}
         >
           <View
-            style={[
-              styles.section,
-              styles.header,
-              { borderBottomColor: props.color }
-            ]}
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: Dimensions.get("window").height * 0.85
+            }}
           >
-            <View style={{ flexDirection: "column" }}>
-              <Text style={styles.title}> {props.name}</Text>
-              <Text style={styles.taskCount}>
-                {completedCount} of {taskCount} tasks left
-              </Text>
-            </View>
-            <TouchableOpacity
-              onPress={props.closeModal}
-              style={[
-                styles.closeModal,
-                {
-                  flexDirection: "column",
-                  alignItems: "flex-end"
-                }
-              ]}
-            >
-              <MaterialCommunityIcons
-                name={"chevron-down-circle-outline"}
-                size={50}
-                color="red"
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.timetableContainer}>
-            {taskCount > 0 ? (
-              <ScrollView>
-                {CompletedTask.length > 0 && (
-                  <View>
-                    {CompletedTask.map((item) => (
-                      <View id={item.id}>
-                        <ToDoItem
-                          data={item}
-                          ChangeImportant={setImportant}
-                          ChangeComplete={setComplete}
-                        ></ToDoItem>
-                        <View style={styles.separator}></View>
-                      </View>
-                    ))}
-                  </View>
-                )}
-                {IncompleteTask.length > 0 && (
-                  <View>
-                    <TouchableOpacity onPress={setViewCompletedTasks}>
-                      <View style={styles.completedTask}>
-                        <Text
-                          style={{
-                            color: "white",
-                            margin: 7,
-                            fontWeight: "bold"
-                          }}
-                        >
-                          Completed {IncompleteTask.length}
-                        </Text>
-
-                        <MaterialCommunityIcons
-                          name={
-                            viewCompletedTask ? "chevron-down" : "chevron-right"
-                          }
-                          size={24}
-                          color="white"
-                        />
-                      </View>
-                    </TouchableOpacity>
-                    {viewCompletedTask &&
-                      IncompleteTask.map((item) => (
-                        <View>
-                          <ToDoItem
-                            data={item}
-                            ChangeImportant={setImportant}
-                            ChangeComplete={setComplete}
-                          ></ToDoItem>
-                          <View style={styles.separator}></View>
-                        </View>
-                      ))}
-                  </View>
-                )}
-              </ScrollView>
-            ) : (
-              <View style={styles.emptyContainer}>
-                <Text style={{ color: "grey" }}>
-                  No task to day , you can add more task by click add button
-                </Text>
-              </View>
-            )}
-          </View>
-          {/* input */}
-          <View style={[styles.section, { paddingLeft: 10, paddingRight: 10 }]}>
-            <View
-              style={{
-                width: "100%"
-              }}
-            >
-              <TouchableOpacity onPress={toggleVisibility}>
-                <View style={styles.addTodoItem}>
-                  <MaterialCommunityIcons
-                    name={"plus"}
-                    size={24}
-                    color="white"
-                  />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Title"
-                    placeholderTextColor={Colors.gray}
-                    onChangeText={(text) => setTitle(text)}
-                  />
+            <View style={{ flex: 1 }}>
+              <View
+                style={[
+                  styles.section,
+                  styles.header,
+                  { borderBottomColor: props.color }
+                ]}
+              >
+                <View style={{ flexDirection: "column" }}>
+                  <Text style={styles.title}> {props.name}</Text>
+                  <Text style={styles.taskCount}>
+                    {completedCount} of {taskCount} tasks left
+                  </Text>
                 </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={props.closeModal}
+                  style={[
+                    styles.closeModal,
+                    {
+                      flexDirection: "column",
+                      alignItems: "flex-end"
+                    }
+                  ]}
+                >
+                  <MaterialCommunityIcons
+                    name={"chevron-down-circle-outline"}
+                    size={50}
+                    color="red"
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <View style={[styles.timetableContainer, {}]}>
+                {taskCount > 0 ? (
+                  <ScrollView style={{}}>
+                    {CompletedTask.length > 0 && (
+                      <View>
+                        {CompletedTask.map((item) => (
+                          <View id={item.id}>
+                            <ToDoItem
+                              data={item}
+                              ChangeImportant={setImportant}
+                              ChangeComplete={setComplete}
+                            ></ToDoItem>
+                            <View style={styles.separator}></View>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+                    {IncompleteTask.length > 0 && (
+                      <View>
+                        <TouchableOpacity onPress={setViewCompletedTasks}>
+                          <View style={styles.completedTask}>
+                            <Text
+                              style={{
+                                color: "white",
+                                margin: 7,
+                                fontWeight: "bold"
+                              }}
+                            >
+                              Completed {IncompleteTask.length}
+                            </Text>
+
+                            <MaterialCommunityIcons
+                              name={
+                                viewCompletedTask
+                                  ? "chevron-down"
+                                  : "chevron-right"
+                              }
+                              size={24}
+                              color="white"
+                            />
+                          </View>
+                        </TouchableOpacity>
+                        {viewCompletedTask &&
+                          IncompleteTask.map((item) => (
+                            <View>
+                              <ToDoItem
+                                data={item}
+                                ChangeImportant={setImportant}
+                                ChangeComplete={setComplete}
+                              ></ToDoItem>
+                              <View style={styles.separator}></View>
+                            </View>
+                          ))}
+                      </View>
+                    )}
+                  </ScrollView>
+                ) : (
+                  <View style={styles.emptyContainer}>
+                    <Text style={{ color: "grey" }}>
+                      No task to day , you can add more task by click add button
+                    </Text>
+                  </View>
+                )}
+              </View>
             </View>
+            {/* input */}
           </View>
-          <Modal visible={isVisible} animationType="fade" transparent={true}>
-            <AddTodoItem
-              onClose={toggleVisibility}
-              onCreate={CreateTodo}
-            ></AddTodoItem>
-          </Modal>
+          <View style={{ paddingHorizontal: 10 }}>
+            <AddTodo onCreate={CreateTodo} inputFT={toggleVisibility}></AddTodo>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </>

@@ -7,5 +7,6 @@ export default {
   gray: "#A4A4A4",
   lightGray: "#CACACA",
   blackblue: "#1C204B",
-  black2: "#575757"
+  black2: "#575757",
+  redpink: "#ed6698"
 };

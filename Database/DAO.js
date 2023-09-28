@@ -142,7 +142,6 @@ export default function (db) {
     addNewToDo: (title, remind, color, completed, taskID, important) => {
       return new Promise((resolve, reject) => {
         db.transaction((tx) => {
-          console.log(startTime, endTime);
           tx.executeSql(
             `INSERT INTO ToDos (title, remind, color, completed, TaskId , important) VALUES (?, ?, ?, ?, ?, ?)`,
             [title, remind, color, completed, taskID, important],
