@@ -11,9 +11,15 @@ import {
   Modal
 } from "react-native";
 import Colors from "../../Colors";
+import ColorPicker from "./colorPicker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import RemindTimePicker from "./RemindTimePicker";
 
 export default function AddTodo(props) {
+  const [isColorPickerModalVisible, setIsColorPickerModalVisible] =
+    useState(false);
+  const [isRemindTimePickerModalVisible, setIsRemindTimePickerModalVisible] =
+    useState(false);
   const [title, setTitle] = useState("");
   const [guide, setGuide] = useState("Add a new to do");
   const [color, setColor] = useState("#24A6D9");
@@ -48,9 +54,11 @@ export default function AddTodo(props) {
   };
 
   const handleEnterPress = () => {
-    props.onCreate(title, color, formatDateToHourAndMinutes(RemindTime));
-    // Handle the "Enter" key press action here
-    //console.log("Enter key pressed! Input value:", text);
+    if (title == "") {
+      console.log("Here");
+    } else {
+      props.onCreate(title, color, formatDateToHourAndMinutes(RemindTime));
+    }
   };
 
   const formatDateToHourAndMinutes = (date) => {
@@ -67,15 +75,13 @@ export default function AddTodo(props) {
     }
   };
 
-  const backgroundColor = [
-    "#24A6D9",
-    "#595BD9",
-    "#F1C75B",
-    "#FF5E7D",
-    "#4BCF82",
-    "#7335D2",
-    "#FF8B64"
-  ];
+  const pickColor = () => {
+    setIsColorPickerModalVisible(!isColorPickerModalVisible);
+  };
+
+  const pickRemindTime = () => {
+    setIsRemindTimePickerModalVisible(!isRemindTimePickerModalVisible);
+  };
 
   const styles = StyleSheet.create({
     addTodoItem: {
@@ -107,7 +113,7 @@ export default function AddTodo(props) {
   });
 
   return (
-    <TouchableOpacity style={{ width: "100%" }} onPress={props.inputFT}>
+    <View style={{ width: "100%" }} onPress={props.inputFT}>
       <View style={styles.addTodoItem}>
         {title == "" && (
           <MaterialCommunityIcons name={"plus"} size={24} color="white" />
@@ -123,10 +129,13 @@ export default function AddTodo(props) {
         />
         {title != "" && (
           <View style={styles.function}>
-            <TouchableOpacity style={styles.funtionItem}>
+            <TouchableOpacity style={styles.funtionItem} onPress={pickColor}>
               <MaterialCommunityIcons name={"square"} size={30} color={color} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.funtionItem}>
+            <TouchableOpacity
+              style={styles.funtionItem}
+              onPress={pickRemindTime}
+            >
               <MaterialCommunityIcons
                 name={"clock-time-two"}
                 size={30}
@@ -143,6 +152,31 @@ export default function AddTodo(props) {
           </View>
         )}
       </View>
-    </TouchableOpacity>
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={isColorPickerModalVisible}
+        onRequestClose={() => setIsColorPickerModalVisible(false)}
+      >
+        <ColorPicker
+          close={setIsColorPickerModalVisible}
+          getColor={setColor}
+        ></ColorPicker>
+      </Modal>
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={isRemindTimePickerModalVisible}
+        onRequestClose={() => setIsRemindTimePickerModalVisible(false)}
+      >
+        <RemindTimePicker
+          close={setIsRemindTimePickerModalVisible}
+          getRemindTime={setRemindTime}
+          currentRemindTime={RemindTime}
+          IsReminded={isReminded}
+          setReminded={setIsReminded}
+        ></RemindTimePicker>
+      </Modal>
+    </View>
   );
 }

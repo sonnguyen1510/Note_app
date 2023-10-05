@@ -8,5 +8,7 @@ export default {
   lightGray: "#CACACA",
   blackblue: "#1C204B",
   black2: "#575757",
-  redpink: "#ed6698"
+  redpink: "#ed6698",
+  lightGray2: "#cccccc",
+  lightGreen: "#17cf54"
 };

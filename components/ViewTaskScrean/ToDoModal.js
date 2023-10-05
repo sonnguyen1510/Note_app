@@ -17,7 +17,6 @@ import Colors from "../../Colors";
 import AddTodo from "./AddTodo";
 
 import ToDoItem from "./ToDoItem";
-import AddTodoItem from "./AddTodoItem";
 import DAO from "../../Database/DAO";
 import { db } from "../../Database/Connection";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
