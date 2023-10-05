@@ -1,11 +1,11 @@
 
 <a name="readme-top"></a>
 # TodoList Mobile Application
-<img src="image/clockImage.png" alt="Logo" width="180" height="180">
+<img src="assets/appImage/png-transparent-checkmark-done-exam-list-pencil-todo-xomo-basics-icon-thumbnail.png" alt="Logo" width="180" height="180">
 
 <!-- ABOUT THE PROJECT -->
 ### About The Project
- 
+
 
 ### Built With
 
@@ -30,5 +30,6 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Preview 
-
+<img src="assets/appImage/z4755891709904_39b9344b09effc4d2cf5d397dbb20fec.jpg" alt="Logo" width="180" height="180">
+<img src="assets/appImage/z4755891716558_b58faed78fb3aa94e0d27a3764b15194.jpg" alt="Logo" width="180" height="180">
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
