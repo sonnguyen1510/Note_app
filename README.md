@@ -11,7 +11,7 @@
 
 * ![Javascript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 * ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
-* ![Android]([https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white))
+* ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 * ![iOS](https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
