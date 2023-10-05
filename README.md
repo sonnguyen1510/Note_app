@@ -30,6 +30,6 @@
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Preview 
-<img src="assets/appImage/z4755891709904_39b9344b09effc4d2cf5d397dbb20fec.jpg" alt="Logo" width="180" height="180">
-<img src="assets/appImage/z4755891716558_b58faed78fb3aa94e0d27a3764b15194.jpg" alt="Logo" width="180" height="180">
+<img src="assets/appImage/z4755891709904_39b9344b09effc4d2cf5d397dbb20fec.jpg" alt="Logo" width="180" height="320">
+<img src="assets/appImage/z4755891716558_b58faed78fb3aa94e0d27a3764b15194.jpg" alt="Logo" width="180" height="320">
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
